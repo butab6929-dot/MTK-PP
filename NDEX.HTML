@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psikotes Matematika Dasar & Tes Pauli Pro</title>
+    <!-- Tailwind CSS untuk tata letak responsif dan utilitas modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tone.js untuk efek suara sintetis tanpa aset eksternal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono untuk angka yang presisi -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top left, #0f172a, #1e293b, #0f172a);
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .font-mono-num {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Efek Kartu Kaca (Glassmorphism) */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Tombol Game Interaktif dengan Efek 3D */
+        .game-btn {
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            box-shadow: 0 4px 0 #1d4ed8, 0 8px 15px rgba(37, 99, 235, 0.3);
+            transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #1d4ed8, 0 12px 20px rgba(37, 99, 235, 0.4);
+        }
+        .game-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #1d4ed8, 0 4px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .game-btn-emerald {
+            background: linear-gradient(145deg, #10b981, #059669);
+            box-shadow: 0 4px 0 #047857, 0 8px 15px rgba(16, 185, 129, 0.3);
+        }
+        .game-btn-emerald:hover {
+            box-shadow: 0 6px 0 #047857, 0 12px 20px rgba(16, 185, 129, 0.4);
+        }
+        .game-btn-emerald:active {
+            box-shadow: 0 1px 0 #047857;
+        }
+
+        .numpad-btn {
+            background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 0 #0f172a;
+            transition: all 0.08s ease;
+        }
+        .numpad-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0f172a;
+            background: #3b82f6;
+        }
+
+        /* Animasi Transisi & Umpan Balik */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.03); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .pauli-active-pair {
+            animation: pulse-ring 1.5s infinite ease-in-out;
+            border: 2px solid #38bdf8;
+            background: rgba(56, 189, 248, 0.15);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .shake-error {
+            animation: shake 0.25s ease-in-out;
+            border-color: #ef4444 !important;
+            background-color: rgba(239, 68, 68, 0.2) !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-between p-3 sm:p-6">
+
+    <!-- Header Navigasi Utama -->
+    <header class="w-full max-w-4xl flex items-center justify-between glass-panel rounded-2xl px-4 py-3 mb-4">
+        <div class="flex items-center gap-3">
+            <!-- Ikon SVG Kustom -->
+            <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <div>
+                <h1 class="font-extrabold text-base sm:text-xl tracking-tight text-white">PSIKOTES MTK <span class="text-blue-400">PRO</span></h1>
+                <p class="text-xs text-slate-400 hidden sm:block">Simulasi Tes Pauli & Matematika Rekrutmen Kerja</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <!-- Tombol Mute/Unmute Suara -->
+            <button id="btn-sound" onclick="toggleSound()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition" title="Suara Efek">
+                <svg id="icon-sound-on" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                </svg>
+                <svg id="icon-sound-off" class="w-5 h-5 hidden text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path>
+                </svg>
+            </button>
+            <!-- Tombol Kembali ke Menu -->
+            <button id="btn-home" onclick="confirmReturnHome()" class="hidden px-3 py-2 rounded-xl bg-slate-800 hover:bg-red-900/50 border border-slate-700 text-xs sm:text-sm font-semibold text-slate-300 hover:text-red-300 transition">
+                Menu Utama
+            </button>
+        </div>
+    </header>
+
+    <!-- Kontainer Utama Dinamis -->
+    <main class="w-full max-w-4xl flex-1 flex flex-col justify-center">
+
+        <!-- ==================== LAYAR 1: MENU UTAMA ==================== -->
+        <section id="screen-menu" class="space-y-6">
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 text-center">
+                <span class="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold tracking-wider uppercase mb-3">Persiapan Kerja & BUMN</span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-2">Pilih Mode Latihan Psikotes</h2>
+                <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">Latih kecepatan, ketelitian, ketahanan fokus, serta kemampuan numerik Anda sebelum menghadapi tes seleksi perusahaan.</p>
+
+                <!-- Kartu Pilihan Mode -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8 text-left">
+                    
+                    <!-- Mode 1: Tes Pauli / Kraepelin -->
+                    <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 flex flex-col justify-between hover:border-blue-500/50 transition">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-mono-num font-bold text-xl">
+                                    7+8
+                                </div>
+                                <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-blue-900/60 text-blue-300">Kecepatan & Ketahanan</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Tes Pauli / Kraepelin</h3>
+                            <p class="text-slate-400 text-sm mb-4">Jumlahkan dua angka berdekatan secara vertikal. Ketik <strong>digit satuan</strong> saja (contoh: 7 + 8 = 15 &rarr; ketik <strong>5</strong>). Dilengkapi grafik stabilitas kerja per interval.</p>
+                            
+                            <!-- Pengaturan Durasi Pauli -->
+                            <div class="mb-5">
+                                <label class="block text-xs font-semibold text-slate-400 uppercase mb-1.5">Durasi Latihan:</label>
+                                <div class="grid grid-cols-3 gap-2" id="pauli-duration-selector">
+                                    <button type="button" onclick="selectPauliDuration(60, this)" class="dur-btn py-2 rounded-xl text-xs font-bold bg-blue-600 text-white border border-blue-400">1 Menit</button>
+                                    <button type="button" onclick="selectPauliDuration(180, this)" class="dur-btn py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 border border-slate-700 hover:text-white">3 Menit</button>
+                                    <button type="button" onclick="selectPauliDuration(300, this)" class="dur-btn py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 border border-slate-700 hover:text-white">5 Menit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="startPauliGame()" class="w-full py-3.5 rounded-xl font-bold text-white game-btn text-sm sm:text-base">
+                            Mulai Tes Pauli &rarr;
+                        </button>
+                    </div>
+
+                    <!-- Mode 2: Matematika Dasar Perusahaan -->
+                    <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 flex flex-col justify-between hover:border-emerald-500/50 transition">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono-num font-bold text-xl">
+                                    % &Sigma;
+                                </div>
+                                <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-900/60 text-emerald-300">Logika & Numerik</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Matematika Dasar Perusahaan</h3>
+                            <p class="text-slate-400 text-sm mb-4">Simulasi soal seleksi masuk kerja meliputi <strong>Deret Angka (Pola)</strong>, <strong>Aritmatika Cepat</strong>, <strong>Persentase Diskon/Laba</strong>, dan <strong>Soal Cerita Logika</strong>.</p>
+                            
+                            <!-- Pengaturan Jumlah Soal -->
+                            <div class="mb-5">
+                                <label class="block text-xs font-semibold text-slate-400 uppercase mb-1.5">Paket Soal:</label>
+                                <div class="grid grid-cols-3 gap-2" id="math-count-selector">
+                                    <button type="button" onclick="selectMathCount(10, this)" class="cnt-btn py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white border border-emerald-400">10 Soal</button>
+                                    <button type="button" onclick="selectMathCount(20, this)" class="cnt-btn py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 border border-slate-700 hover:text-white">20 Soal</button>
+                                    <button type="button" onclick="selectMathCount(30, this)" class="cnt-btn py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 border border-slate-700 hover:text-white">30 Soal</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="startMathQuiz()" class="w-full py-3.5 rounded-xl font-bold text-white game-btn game-btn-emerald text-sm sm:text-base">
+                            Mulai Tes Numerik &rarr;
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LAYAR 2: GAME TES PAULI ==================== -->
+        <section id="screen-pauli" class="hidden space-y-4">
+            <!-- Bar Statistik Pauli -->
+            <div class="grid grid-cols-3 gap-3">
+                <div class="glass-panel rounded-2xl p-3 text-center">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 block">Sisa Waktu</span>
+                    <span id="pauli-timer" class="font-mono-num text-xl sm:text-2xl font-extrabold text-amber-400">01:00</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-3 text-center">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 block">Terjawab</span>
+                    <span id="pauli-score" class="font-mono-num text-xl sm:text-2xl font-extrabold text-emerald-400">0</span>
+                </div>
+                <div class="glass-panel rounded-2xl p-3 text-center">
+                    <span class="text-[11px] uppercase tracking-wider text-slate-400 block">Akurasi</span>
+                    <span id="pauli-accuracy" class="font-mono-num text-xl sm:text-2xl font-extrabold text-blue-400">100%</span>
+                </div>
+            </div>
+
+            <!-- Area Kerja Kolom Angka Pauli + Numpad -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                
+                <!-- Kolom Lajur Angka (Kiri/Atas) -->
+                <div class="md:col-span-6 glass-panel rounded-3xl p-5 flex flex-col items-center justify-center relative overflow-hidden">
+                    <div id="pauli-interval-badge" class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold hidden">
+                        GARIS INTERVAL!
+                    </div>
+                    <p class="text-xs text-slate-400 mb-3 text-center">Jumlahkan 2 angka di kotak biru, tekan angka <strong>satuannya</strong></p>
+                    
+                    <!-- Visualisasi Lajur Angka Vertikal -->
+                    <div id="pauli-column-container" class="w-full max-w-[240px] flex flex-col items-center space-y-2 py-2">
+                        <!-- Diisi secara dinamis oleh JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Numpad Sentuh & Keyboard (Kanan/Bawah) -->
+                <div class="md:col-span-6 glass-panel rounded-3xl p-4 sm:p-5">
+                    <div class="grid grid-cols-3 gap-2.5 max-w-[320px] mx-auto">
+                        <button onclick="inputPauliDigit(1)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">1</button>
+                        <button onclick="inputPauliDigit(2)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">2</button>
+                        <button onclick="inputPauliDigit(3)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">3</button>
+                        <button onclick="inputPauliDigit(4)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">4</button>
+                        <button onclick="inputPauliDigit(5)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">5</button>
+                        <button onclick="inputPauliDigit(6)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">6</button>
+                        <button onclick="inputPauliDigit(7)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">7</button>
+                        <button onclick="inputPauliDigit(8)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">8</button>
+                        <button onclick="inputPauliDigit(9)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">9</button>
+                        <div class="flex items-center justify-center text-xs text-slate-500 text-center px-1">Bisa pakai Keyboard 0-9</div>
+                        <button onclick="inputPauliDigit(0)" class="numpad-btn py-4 rounded-2xl font-mono-num text-2xl font-bold text-white">0</button>
+                        <button onclick="finishPauliEarly()" class="py-4 rounded-2xl bg-red-900/40 hover:bg-red-800/60 border border-red-700/50 text-xs font-bold text-red-300">Selesai</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== LAYAR 3: GAME MATEMATIKA DASAR PERUSAHAAN ==================== -->
+        <section id="screen-math" class="hidden space-y-4">
+            <!-- Header Progres Kuis -->
+            <div class="glass-panel rounded-2xl p-4">
+                <div class="flex items-center justify-between text-xs sm:text-sm font-semibold mb-2">
+                    <span class="text-slate-300">Soal <span id="math-q-current" class="text-emerald-400 font-bold">1</span> dari <span id="math-q-total">10</span></span>
+                    <span id="math-category-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs">Deret Angka</span>
+                    <span class="font-mono-num text-amber-400 font-bold" id="math-timer">00:00</span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="math-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300" style="width: 10%"></div>
+                </div>
+            </div>
+
+            <!-- Kartu Soal -->
+            <div id="math-card" class="glass-panel rounded-3xl p-6 sm:p-8">
+                <div class="min-h-[110px] flex items-center justify-center text-center mb-6">
+                    <p id="math-question-text" class="text-lg sm:text-2xl font-bold text-white leading-relaxed">
+                        Memuat soal...
+                    </p>
+                </div>
+
+                <!-- Pilihan Jawaban Ganda (A, B, C, D) -->
+                <div id="math-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <!-- Diisi secara dinamis -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LAYAR 4: HASIL & EVALUASI ==================== -->
+        <section id="screen-result" class="hidden space-y-5">
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 text-center">
+                <div id="result-badge-icon" class="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+                    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h2 id="result-title" class="text-2xl sm:text-3xl font-extrabold text-white mb-1">Hasil Latihan Selesai!</h2>
+                <p id="result-subtitle" class="text-slate-400 text-sm mb-6">Berikut adalah analisis performa psikotes Anda</p>
+
+                <!-- Ringkasan Angka Utama -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                    <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-4">
+                        <span class="text-xs text-slate-400 block mb-1" id="stat1-label">Skor Total</span>
+                        <span class="font-mono-num text-2xl font-extrabold text-white" id="stat1-val">0</span>
+                    </div>
+                    <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-4">
+                        <span class="text-xs text-slate-400 block mb-1" id="stat2-label">Jawaban Benar</span>
+                        <span class="font-mono-num text-2xl font-extrabold text-emerald-400" id="stat2-val">0</span>
+                    </div>
+                    <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-4">
+                        <span class="text-xs text-slate-400 block mb-1" id="stat3-label">Salah</span>
+                        <span class="font-mono-num text-2xl font-extrabold text-red-400" id="stat3-val">0</span>
+                    </div>
+                    <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-4">
+                        <span class="text-xs text-slate-400 block mb-1" id="stat4-label">Predikat</span>
+                        <span class="text-lg sm:text-xl font-extrabold text-amber-400" id="stat4-val">Baik</span>
+                    </div>
+                </div>
+
+                <!-- Grafik Kurva Kerja (Khusus Pauli) atau Pembahasan Soal (Khusus Matematika) -->
+                <div id="pauli-chart-wrapper" class="hidden bg-slate-900/80 border border-slate-700/80 rounded-2xl p-4 mb-6 text-left">
+                    <h3 class="text-sm font-bold text-slate-200 mb-1">Grafik Stabilitas Kerja (Per 15 Detik)</h3>
+                    <p class="text-xs text-slate-400 mb-3">Grafik yang stabil atau menanjak menunjukkan ketahanan konsentrasi dan emosi yang baik saat bekerja di bawah tekanan.</p>
+                    <div class="w-full h-48 relative">
+                        <canvas id="pauli-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div id="math-review-wrapper" class="hidden bg-slate-900/80 border border-slate-700/80 rounded-2xl p-4 mb-6 text-left max-h-64 overflow-y-auto space-y-3">
+                    <h3 class="text-sm font-bold text-slate-200 sticky top-0 bg-slate-900 py-1">Pembahasan Soal & Kunci Jawaban</h3>
+                    <div id="math-review-list" class="space-y-2.5 text-xs sm:text-sm"></div>
+                </div>
+
+                <!-- Tombol Aksi Akhir -->
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button id="btn-retry" onclick="retryCurrentMode()" class="px-6 py-3.5 rounded-xl font-bold text-white game-btn text-sm">
+                        Ulangi Latihan Ini
+                    </button>
+                    <button onclick="showScreen('screen-menu')" class="px-6 py-3.5 rounded-xl font-bold bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-sm transition">
+                        Pilih Mode Lain
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Konfirmasi Kustom (Pengganti confirm() bawaan browser) -->
+    <div id="custom-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel rounded-3xl max-w-sm w-full p-6 text-center border border-slate-600">
+            <h3 class="text-lg font-bold text-white mb-2">Hentikan Sesi Latihan?</h3>
+            <p class="text-sm text-slate-300 mb-6">Progres latihan saat ini tidak akan disimpan jika Anda kembali ke menu utama.</p>
+            <div class="flex gap-3">
+                <button onclick="closeModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm">Lanjut Tes</button>
+                <button onclick="forceReturnHome()" class="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold text-sm">Keluar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-4xl text-center text-xs text-slate-500 mt-6 pb-2">
+        Simulasi Psikotes Numerik & Pauli &bull; Latihan Mandiri Seleksi Kerja
+    </footer>
+
+    <!-- ==================== LOGIKA JAVASCRIPT ==================== -->
+    <script>
+        // --- 1. SISTEM AUDIO SINTETIS (TONE.JS) ---
+        let soundEnabled = true;
+        let synth = null;
+
+        function initAudio() {
+            try {
+                if (typeof Tone !== 'undefined') {
+                    if (Tone.context && Tone.context.state !== 'running') {
+                        Tone.start().catch(() => {});
+                    }
+                    if (!synth) {
+                        synth = new Tone.PolySynth(Tone.Synth, {
+                            oscillator: { type: "triangle" },
+                            envelope: { attack: 0.005, decay: 0.08, sustain: 0.02, release: 0.08 }
+                        }).toDestination();
+                        synth.volume.value = -10;
+                    }
+                }
+            } catch (e) {
+                // Abaikan jika browser membatasi Web Audio API
+            }
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                if (!synth) initAudio();
+                if (!synth || !Tone || Tone.context.state !== 'running') return;
+                
+                // Gunakan waktu sedikit ke depan (+0.01) untuk mencegah error penjadwalan Tone.js saat ketik cepat
+                const now = Tone.now() + 0.01;
+                if (type === 'correct') {
+                    synth.triggerAttackRelease("C5", "64n", now);
+                } else if (type === 'wrong') {
+                    synth.triggerAttackRelease("G2", "32n", now);
+                } else if (type === 'interval') {
+                    synth.triggerAttackRelease("A5", "32n", now);
+                } else if (type === 'finish') {
+                    synth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "16n", now);
+                }
+            } catch (e) {
+                // Jangan biarkan error audio menghentikan jalannya game Pauli
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('icon-sound-on').classList.toggle('hidden', !soundEnabled);
+            document.getElementById('icon-sound-off').classList.toggle('hidden', soundEnabled);
+        }
+
+        // --- 2. MANAJEMEN NAVIGASI LAYAR ---
+        let currentMode = null; // 'pauli' atau 'math'
+
+        function showScreen(screenId) {
+            ['screen-menu', 'screen-pauli', 'screen-math', 'screen-result'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+
+            // Tampilkan tombol Home hanya saat berada di dalam game
+            const btnHome = document.getElementById('btn-home');
+            if (screenId === 'screen-pauli' || screenId === 'screen-math') {
+                btnHome.classList.remove('hidden');
+            } else {
+                btnHome.classList.add('hidden');
+            }
+        }
+
+        function confirmReturnHome() {
+            document.getElementById('custom-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+        }
+
+        function forceReturnHome() {
+            closeModal();
+            clearInterval(pauliTimerInterval);
+            clearInterval(mathTimerInterval);
+            showScreen('screen-menu');
+        }
+
+        function retryCurrentMode() {
+            if (currentMode === 'pauli') startPauliGame();
+            else if (currentMode === 'math') startMathQuiz();
+        }
+
+        // --- 3. LOGIKA MODE 1: TES PAULI / KRAEPELIN ---
+        let pauliDuration = 60; // Default 60 detik
+        let pauliTimeLeft = 60;
+        let pauliTimerInterval = null;
+        let pauliNumbers = [];
+        let pauliIndex = 0;
+        let pauliCorrect = 0;
+        let pauliWrong = 0;
+        let pauliIntervalHistory = []; // Menyimpan kecepatan per 15 detik
+        let pauliCurrentIntervalCount = 0;
+
+        function selectPauliDuration(seconds, btnElement) {
+            pauliDuration = seconds;
+            document.querySelectorAll('.dur-btn').forEach(btn => {
+                btn.className = "dur-btn py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 border border-slate-700 hover:text-white";
+            });
+            btnElement.className = "dur-btn py-2 rounded-xl text-xs font-bold bg-blue-600 text-white border border-blue-400";
+        }
+
+        function generateRandomDigit() {
+            // Angka 1 - 9 sesuai standar lembar Pauli
+            return Math.floor(Math.random() * 9) + 1;
+        }
+
+        function startPauliGame() {
+            initAudio();
+            currentMode = 'pauli';
+            pauliTimeLeft = pauliDuration;
+            pauliIndex = 0;
+            pauliCorrect = 0;
+            pauliWrong = 0;
+            pauliIntervalHistory = [];
+            pauliCurrentIntervalCount = 0;
+
+            // Siapkan deretan awal 30 angka
+            pauliNumbers = Array.from({ length: 30 }, () => generateRandomDigit());
+
+            showScreen('screen-pauli');
+            updatePauliUI();
+            renderPauliColumn();
+
+            clearInterval(pauliTimerInterval);
+            pauliTimerInterval = setInterval(() => {
+                pauliTimeLeft--;
+                updatePauliTimerDisplay();
+
+                // Setiap 15 detik, catat performa interval (seperti instruksi "GARIS!" pada tes Pauli asli)
+                const elapsed = pauliDuration - pauliTimeLeft;
+                if (elapsed > 0 && elapsed % 15 === 0) {
+                    pauliIntervalHistory.push(pauliCurrentIntervalCount);
+                    pauliCurrentIntervalCount = 0;
+                    triggerPauliIntervalBadge();
+                }
+
+                if (pauliTimeLeft <= 0) {
+                    finishPauliGame();
+                }
+            }, 1000);
+        }
+
+        function triggerPauliIntervalBadge() {
+            playSound('interval');
+            const badge = document.getElementById('pauli-interval-badge');
+            if (badge) {
+                badge.classList.remove('hidden');
+                setTimeout(() => badge.classList.add('hidden'), 1500);
+            }
+        }
+
+        function updatePauliTimerDisplay() {
+            const timerEl = document.getElementById('pauli-timer');
+            if (!timerEl) return;
+            const mins = Math.floor(Math.max(0, pauliTimeLeft) / 60).toString().padStart(2, '0');
+            const secs = (Math.max(0, pauliTimeLeft) % 60).toString().padStart(2, '0');
+            timerEl.textContent = `${mins}:${secs}`;
+        }
+
+        function updatePauliUI() {
+            updatePauliTimerDisplay();
+            const total = pauliCorrect + pauliWrong;
+            const scoreEl = document.getElementById('pauli-score');
+            const accEl = document.getElementById('pauli-accuracy');
+            if (scoreEl) scoreEl.textContent = pauliCorrect;
+            const acc = total === 0 ? 100 : Math.round((pauliCorrect / total) * 100);
+            if (accEl) accEl.textContent = `${acc}%`;
+        }
+
+        function renderPauliColumn() {
+            const container = document.getElementById('pauli-column-container');
+            if (!container) return;
+
+            // Pastikan stok angka selalu cukup
+            while (pauliNumbers.length < pauliIndex + 10) {
+                pauliNumbers.push(generateRandomDigit());
+            }
+
+            // Tampilkan 4 angka: 1 sudah lewat (redup), 2 aktif dijumlahkan (sorot biru), 1 antrean berikutnya
+            const prevNum = pauliIndex > 0 ? pauliNumbers[pauliIndex - 1] : null;
+            const numTop = pauliNumbers[pauliIndex];
+            const numBottom = pauliNumbers[pauliIndex + 1];
+            const nextNum = pauliNumbers[pauliIndex + 2];
+
+            container.innerHTML = `
+                <div class="w-20 h-10 rounded-xl bg-slate-800/40 flex items-center justify-center font-mono-num text-lg text-slate-600">
+                    ${prevNum !== null ? prevNum : '&bull;'}
+                </div>
+                
+                <div id="pauli-active-box" class="w-full p-3 rounded-2xl pauli-active-pair flex flex-col items-center relative">
+                    <div class="w-24 h-14 rounded-xl bg-slate-900 border border-blue-400/50 flex items-center justify-center font-mono-num text-3xl font-extrabold text-white shadow-inner">
+                        ${numTop}
+                    </div>
+                    <div class="my-1 text-blue-400 font-bold text-sm flex items-center gap-2">
+                        <span>+</span>
+                        <span class="px-2 py-0.5 rounded bg-blue-500/20 text-xs text-blue-300">?</span>
+                    </div>
+                    <div class="w-24 h-14 rounded-xl bg-slate-900 border border-blue-400/50 flex items-center justify-center font-mono-num text-3xl font-extrabold text-white shadow-inner">
+                        ${numBottom}
+                    </div>
+                </div>
+
+                <div class="w-20 h-11 rounded-xl bg-slate-800/70 border border-slate-700 flex items-center justify-center font-mono-num text-xl font-bold text-slate-400">
+                    ${nextNum}
+                </div>
+            `;
+        }
+
+        function inputPauliDigit(digit) {
+            const pauliScreen = document.getElementById('screen-pauli');
+            if (!pauliScreen || pauliScreen.classList.contains('hidden')) return;
+            if (pauliTimeLeft <= 0) return;
+            
+            const num1 = Number(pauliNumbers[pauliIndex]);
+            const num2 = Number(pauliNumbers[pauliIndex + 1]);
+            const expectedUnit = (num1 + num2) % 10;
+
+            if (Number(digit) === expectedUnit) {
+                pauliCorrect++;
+                pauliCurrentIntervalCount++;
+                pauliIndex++;
+                renderPauliColumn();
+                updatePauliUI();
+                playSound('correct');
+            } else {
+                pauliWrong++;
+                updatePauliUI();
+                playSound('wrong');
+                const activeBox = document.getElementById('pauli-active-box');
+                if (activeBox) {
+                    activeBox.classList.remove('shake-error');
+                    void activeBox.offsetWidth; // trigger reflow
+                    activeBox.classList.add('shake-error');
+                }
+            }
+        }
+
+        function finishPauliEarly() {
+            finishPauliGame();
+        }
+
+        function finishPauliGame() {
+            clearInterval(pauliTimerInterval);
+            playSound('finish');
+
+            // Masukkan sisa hitungan interval terakhir jika ada
+            if (pauliCurrentIntervalCount > 0 || pauliIntervalHistory.length === 0) {
+                pauliIntervalHistory.push(pauliCurrentIntervalCount);
+            }
+
+            const totalAttempt = pauliCorrect + pauliWrong;
+            const accuracy = totalAttempt === 0 ? 0 : Math.round((pauliCorrect / totalAttempt) * 100);
+            const speedPerMin = Math.round((pauliCorrect / Math.max(1, (pauliDuration - pauliTimeLeft))) * 60);
+
+            let grade = "Perlu Latihan";
+            if (speedPerMin >= 55 && accuracy >= 95) grade = "Sangat Unggul";
+            else if (speedPerMin >= 40 && accuracy >= 90) grade = "Baik / Lolos";
+            else if (speedPerMin >= 25 && accuracy >= 80) grade = "Cukup";
+
+            // Isi tampilan layar hasil
+            document.getElementById('result-title').textContent = "Hasil Tes Pauli / Kraepelin";
+            document.getElementById('result-subtitle').textContent = `Kecepatan rata-rata: ${speedPerMin} hitungan/menit (Akurasi ${accuracy}%)`;
+            
+            document.getElementById('stat1-label').textContent = "Kecepatan/Mnt";
+            document.getElementById('stat1-val').textContent = speedPerMin;
+            
+            document.getElementById('stat2-label').textContent = "Benar";
+            document.getElementById('stat2-val').textContent = pauliCorrect;
+            
+            document.getElementById('stat3-label').textContent = "Salah";
+            document.getElementById('stat3-val').textContent = pauliWrong;
+            
+            document.getElementById('stat4-label').textContent = "Evaluasi";
+            document.getElementById('stat4-val').textContent = grade;
+
+            document.getElementById('pauli-chart-wrapper').classList.remove('hidden');
+            document.getElementById('math-review-wrapper').classList.add('hidden');
+
+            showScreen('screen-result');
+            setTimeout(() => drawPauliChart(pauliIntervalHistory), 50);
+        }
+
+        // Menggambar Grafik Stabilitas Kerja Pauli menggunakan HTML5 Canvas
+        function drawPauliChart(dataPoints) {
+            const canvas = document.getElementById('pauli-canvas');
+            const parent = canvas.parentElement;
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const pad = 28;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Garis grid horizontal
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad + ((h - pad * 2) / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(pad, y);
+                ctx.lineTo(w - pad, y);
+                ctx.stroke();
+            }
+
+            if (dataPoints.length === 0) return;
+
+            const maxVal = Math.max(...dataPoints, 10);
+            const stepX = dataPoints.length > 1 ? (w - pad * 2) / (dataPoints.length - 1) : 0;
+
+            // Area gradien di bawah garis
+            const grad = ctx.createLinearGradient(0, pad, 0, h - pad);
+            grad.addColorStop(0, 'rgba(56, 189, 248, 0.35)');
+            grad.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+
+            ctx.beginPath();
+            dataPoints.forEach((val, idx) => {
+                const x = dataPoints.length === 1 ? w / 2 : pad + idx * stepX;
+                const y = h - pad - ((val / maxVal) * (h - pad * 2));
+                if (idx === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+
+            if (dataPoints.length > 1) {
+                ctx.lineTo(pad + (dataPoints.length - 1) * stepX, h - pad);
+                ctx.lineTo(pad, h - pad);
+                ctx.closePath();
+                ctx.fillStyle = grad;
+                ctx.fill();
+            }
+
+            // Garis utama kurva
+            ctx.beginPath();
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 3;
+            dataPoints.forEach((val, idx) => {
+                const x = dataPoints.length === 1 ? w / 2 : pad + idx * stepX;
+                const y = h - pad - ((val / maxVal) * (h - pad * 2));
+                if (idx === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // Titik data dan label angka
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            dataPoints.forEach((val, idx) => {
+                const x = dataPoints.length === 1 ? w / 2 : pad + idx * stepX;
+                const y = h - pad - ((val / maxVal) * (h - pad * 2));
+
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = '#0f172a';
+                ctx.fill();
+                ctx.lineWidth = 2.5;
+                ctx.strokeStyle = '#38bdf8';
+                ctx.stroke();
+
+                ctx.fillStyle = '#f8fafc';
+                ctx.fillText(val, x, y - 10);
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText(`Int-${idx + 1}`, x, h - 8);
+            });
+        }
+
+        // --- 4. LOGIKA MODE 2: MATEMATIKA DASAR PERUSAHAAN ---
+        let mathTotalQuestions = 10;
+        let mathQuestions = [];
+        let mathCurrentIdx = 0;
+        let mathCorrectCount = 0;
+        let mathUserAnswers = [];
+        let mathSecondsElapsed = 0;
+        let mathTimerInterval = null;
+
+        function selectMathCount(count, btnElement) {
+            mathTotalQuestions = count;
+            document.querySelectorAll('.cnt-btn').forEach(btn => {
+                btn.className = "cnt-btn py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 border border-slate-700 hover:text-white";
+            });
+            btnElement.className = "cnt-btn py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white border border-emerald-400";
+        }
+
+        // Generator Soal Matematika Psikotes Dinamis (Tidak pernah habis / bervariasi)
+        function generateMathQuestion(index) {
+            const type = index % 4; // 0: Deret Angka, 1: Aritmatika Cepat, 2: Persentase/Diskon, 3: Soal Cerita Kerja
+            let question = "";
+            let correctVal = 0;
+            let category = "";
+            let explanation = "";
+            let suffix = "";
+
+            if (type === 0) {
+                // DERET ANGKA (Pola Aritmatika Bertingkat atau Geometri)
+                category = "Deret Angka";
+                const subType = Math.floor(Math.random() * 2);
+                if (subType === 0) {
+                    const start = Math.floor(Math.random() * 15) + 2;
+                    const diff = Math.floor(Math.random() * 7) + 3;
+                    const seq = [start, start + diff, start + diff * 2, start + diff * 3, start + diff * 4];
+                    correctVal = start + diff * 5;
+                    question = `Tentukan angka selanjutnya dari deret berikut:\n${seq.join(" , ")} , ...`;
+                    explanation = `Pola penjumlahan tetap (+${diff}). Maka ${seq[4]} + ${diff} = ${correctVal}.`;
+                } else {
+                    // Pola bertingkat: +2, +4, +6, +8, +10
+                    const start = Math.floor(Math.random() * 10) + 1;
+                    const s1 = start;
+                    const s2 = s1 + 2;
+                    const s3 = s2 + 4;
+                    const s4 = s3 + 6;
+                    const s5 = s4 + 8;
+                    correctVal = s5 + 10;
+                    question = `Lanjutkan pola bilangan berikut:\n${s1} , ${s2} , ${s3} , ${s4} , ${s5} , ...`;
+                    explanation = `Pola selisih bertingkat (+2, +4, +6, +8, +10). Maka ${s5} + 10 = ${correctVal}.`;
+                }
+            } else if (type === 1) {
+                // ARITMATIKA & ALJABAR DASAR
+                category = "Aritmatika Cepat";
+                const a = Math.floor(Math.random() * 15) + 12;
+                const b = Math.floor(Math.random() * 8) + 4;
+                const c = Math.floor(Math.random() * 25) + 10;
+                correctVal = (a * b) - c;
+                question = `Berapakah hasil dari (${a} × ${b}) - ${c} ?`;
+                explanation = `Kerjakan perkalian terlebih dahulu: (${a} × ${b}) = ${a * b}, lalu dikurangi ${c} = ${correctVal}.`;
+            } else if (type === 2) {
+                // PERSENTASE, DISKON & KEUNTUNGAN
+                category = "Persentase & Bisnis";
+                const priceList = [120000, 150000, 200000, 250000, 300000, 400000, 500000];
+                const discList = [10, 15, 20, 25, 30];
+                const price = priceList[Math.floor(Math.random() * priceList.length)];
+                const disc = discList[Math.floor(Math.random() * discList.length)];
+                const pot = (price * disc) / 100;
+                correctVal = price - pot;
+                suffix = "";
+                question = `Harga sebuah barang adalah Rp ${price.toLocaleString('id-ID')}. Jika mendapat diskon ${disc}%, berapa harga yang harus dibayar?`;
+                explanation = `Potongan ${disc}% × ${price.toLocaleString('id-ID')} = Rp ${pot.toLocaleString('id-ID')}. Harga akhir = Rp ${correctVal.toLocaleString('id-ID')}.`;
+            } else {
+                // SOAL CERITA LOGIKA & PERBANDINGAN KERJA
+                category = "Soal Cerita Logika";
+                const subStory = Math.floor(Math.random() * 2);
+                if (subStory === 0) {
+                    const speed = [40, 50, 60, 75, 80][Math.floor(Math.random() * 5)];
+                    const hours = [2, 3, 4, 5][Math.floor(Math.random() * 4)];
+                    correctVal = speed * hours;
+                    suffix = " km";
+                    question = `Sebuah mobil logistik melaju dengan kecepatan rata-rata ${speed} km/jam. Berapa jarak yang ditempuh dalam waktu ${hours} jam?`;
+                    explanation = `Jarak = Kecepatan × Waktu = ${speed} km/jam × ${hours} jam = ${correctVal} km.`;
+                } else {
+                    const workers1 = 4;
+                    const days1 = [6, 9, 12, 15][Math.floor(Math.random() * 4)];
+                    const workers2 = 6;
+                    correctVal = (workers1 * days1) / workers2;
+                    suffix = " hari";
+                    question = `Suatu proyek dapat diselesaikan oleh ${workers1} orang pekerja dalam ${days1} hari. Jika ditambah menjadi ${workers2} orang pekerja, berapa hari proyek selesai?`;
+                    explanation = `Perbandingan berbalik nilai: (${workers1} × ${days1}) / ${workers2} = ${correctVal} hari.`;
+                }
+            }
+
+            // Buat 3 pengecoh (distractor) yang masuk akal
+            const optionsSet = new Set([correctVal]);
+            while (optionsSet.size < 4) {
+                const offsetBase = type === 2 ? 15000 : (Math.floor(Math.random() * 6) + 1);
+                const sign = Math.random() > 0.5 ? 1 : -1;
+                const fake = correctVal + (offsetBase * sign * (Math.floor(Math.random() * 2) + 1));
+                if (fake > 0 && fake !== correctVal) {
+                    optionsSet.add(fake);
+                }
+            }
+
+            // Acak posisi pilihan ganda
+            const optionsArray = Array.from(optionsSet).sort(() => Math.random() - 0.5);
+            const formattedOptions = optionsArray.map(val => {
+                if (type === 2) return `Rp ${val.toLocaleString('id-ID')}`;
+                return `${val}${suffix}`;
+            });
+            const formattedCorrect = type === 2 ? `Rp ${correctVal.toLocaleString('id-ID')}` : `${correctVal}${suffix}`;
+
+            return {
+                category,
+                question,
+                options: formattedOptions,
+                answer: formattedCorrect,
+                explanation
+            };
+        }
+
+        function startMathQuiz() {
+            initAudio();
+            currentMode = 'math';
+            mathCurrentIdx = 0;
+            mathCorrectCount = 0;
+            mathUserAnswers = [];
+            mathSecondsElapsed = 0;
+
+            mathQuestions = Array.from({ length: mathTotalQuestions }, (_, i) => generateMathQuestion(i));
+
+            document.getElementById('math-q-total').textContent = mathTotalQuestions;
+            showScreen('screen-math');
+            renderMathQuestion();
+
+            clearInterval(mathTimerInterval);
+            mathTimerInterval = setInterval(() => {
+                mathSecondsElapsed++;
+                const mins = Math.floor(mathSecondsElapsed / 60).toString().padStart(2, '0');
+                const secs = (mathSecondsElapsed % 60).toString().padStart(2, '0');
+                document.getElementById('math-timer').textContent = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function renderMathQuestion() {
+            const q = mathQuestions[mathCurrentIdx];
+            document.getElementById('math-q-current').textContent = mathCurrentIdx + 1;
+            document.getElementById('math-category-badge').textContent = q.category;
+            document.getElementById('math-question-text').innerText = q.question;
+
+            const pct = ((mathCurrentIdx + 1) / mathTotalQuestions) * 100;
+            document.getElementById('math-progress-bar').style.width = `${pct}%`;
+
+            const grid = document.getElementById('math-options-grid');
+            const letters = ['A', 'B', 'C', 'D'];
+            grid.innerHTML = q.options.map((opt, idx) => `
+                <button onclick="submitMathAnswer('${opt.replace(/'/g, "\\'")}', this)" 
+                    class="math-opt-btn flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-emerald-400 text-left transition group">
+                    <span class="w-9 h-9 rounded-xl bg-slate-900 group-hover:bg-emerald-600 text-slate-300 group-hover:text-white font-bold flex items-center justify-center text-sm transition">
+                        ${letters[idx]}
+                    </span>
+                    <span class="font-mono-num text-base sm:text-lg font-bold text-white">${opt}</span>
+                </button>
+            `).join('');
+        }
+
+        function submitMathAnswer(selectedOption, btnElement) {
+            // Cegah klik ganda saat transisi
+            const allBtns = document.querySelectorAll('.math-opt-btn');
+            allBtns.forEach(b => b.disabled = true);
+
+            const q = mathQuestions[mathCurrentIdx];
+            const isCorrect = selectedOption === q.answer;
+
+            if (isCorrect) {
+                playSound('correct');
+                mathCorrectCount++;
+                btnElement.classList.add('!bg-emerald-600/30', '!border-emerald-400');
+            } else {
+                playSound('wrong');
+                btnElement.classList.add('!bg-red-600/30', '!border-red-400', 'shake-error');
+                // Sorot jawaban yang benar
+                allBtns.forEach(b => {
+                    if (b.innerText.includes(q.answer)) {
+                        b.classList.add('!bg-emerald-600/30', '!border-emerald-400');
+                    }
+                });
+            }
+
+            mathUserAnswers.push({
+                question: q.question,
+                userAnswer: selectedOption,
+                correctAnswer: q.answer,
+                isCorrect,
+                explanation: q.explanation
+            });
+
+            setTimeout(() => {
+                mathCurrentIdx++;
+                if (mathCurrentIdx < mathTotalQuestions) {
+                    renderMathQuestion();
+                } else {
+                    finishMathQuiz();
+                }
+            }, 650);
+        }
+
+        function finishMathQuiz() {
+            clearInterval(mathTimerInterval);
+            playSound('finish');
+
+            const score = Math.round((mathCorrectCount / mathTotalQuestions) * 100);
+            const wrongCount = mathTotalQuestions - mathCorrectCount;
+
+            let grade = "Perlu Belajar";
+            if (score >= 85) grade = "Lulus (Sangat Baik)";
+            else if (score >= 70) grade = "Lulus (Standar)";
+            else if (score >= 50) grade = "Cukup";
+
+            document.getElementById('result-title').textContent = "Hasil Tes Matematika Dasar";
+            document.getElementById('result-subtitle').textContent = `Waktu pengerjaan: ${document.getElementById('math-timer').textContent}`;
+
+            document.getElementById('stat1-label').textContent = "Nilai Akhir";
+            document.getElementById('stat1-val').textContent = `${score}`;
+
+            document.getElementById('stat2-label').textContent = "Benar";
+            document.getElementById('stat2-val').textContent = mathCorrectCount;
+
+            document.getElementById('stat3-label').textContent = "Salah";
+            document.getElementById('stat3-val').textContent = wrongCount;
+
+            document.getElementById('stat4-label').textContent = "Status";
+            document.getElementById('stat4-val').textContent = grade;
+
+            document.getElementById('pauli-chart-wrapper').classList.add('hidden');
+            document.getElementById('math-review-wrapper').classList.remove('hidden');
+
+            // Render daftar pembahasan soal
+            const reviewList = document.getElementById('math-review-list');
+            reviewList.innerHTML = mathUserAnswers.map((item, idx) => `
+                <div class="p-3 rounded-xl border ${item.isCorrect ? 'bg-emerald-950/30 border-emerald-800/60' : 'bg-red-950/30 border-red-800/60'}">
+                    <div class="flex items-start justify-between gap-2 mb-1">
+                        <span class="font-bold text-slate-200">${idx + 1}. ${item.question}</span>
+                        <span class="px-2 py-0.5 rounded text-[11px] font-bold shrink-0 ${item.isCorrect ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300'}">
+                            ${item.isCorrect ? 'BENAR' : 'SALAH'}
+                        </span>
+                    </div>
+                    <p class="text-slate-300">Jawaban Anda: <strong>${item.userAnswer}</strong> &bull; Kunci: <strong class="text-emerald-400">${item.correctAnswer}</strong></p>
+                    <p class="text-slate-400 mt-1 italic">${item.explanation}</p>
+                </div>
+            `).join('');
+
+            showScreen('screen-result');
+        }
+
+        // --- 5. DUKUNGAN KEYBOARD FISIK (UNTUK KOMPUTER/LAPTOP) ---
+        window.addEventListener('keydown', (e) => {
+            const pauliScreen = document.getElementById('screen-pauli');
+            if (pauliScreen && !pauliScreen.classList.contains('hidden')) {
+                if (/^[0-9]$/.test(e.key)) {
+                    e.preventDefault();
+                    inputPauliDigit(parseInt(e.key, 10));
+                }
+            }
+        });
+
+        // Gambar ulang grafik Pauli jika ukuran layar berubah
+        window.addEventListener('resize', () => {
+            if (!document.getElementById('pauli-chart-wrapper').classList.contains('hidden')) {
+                drawPauliChart(pauliIntervalHistory);
+            }
+        });
+    </script>
+</body>
+</html>
